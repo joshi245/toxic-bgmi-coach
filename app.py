@@ -110,6 +110,18 @@ def create_final_image(roast_text, layout_data, base_image_path, font_path):
         return None
 
 # Routes
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 @app.route('/')
 def index():
     return render_template('index.html')
