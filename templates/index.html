@@ -7,61 +7,94 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="main-wrapper">
-    <h1 class="logo-title">🔥 THE TOXIC BGMI COACH</h1>
-    <p class="subtitle">Upload your kachra stats. The AI will roast you AND auto-design the layout.</p>
 
-    <form action="/roast" method="post" enctype="multipart/form-data" class="upload-container">
-        <div class="upload-box" id="drop-zone">
-            <input type="file" name="file" id="file-input" accept="image/*" hidden>
-            <div id="preview-container">
-                <p>📸 Click here or Drag & Drop your Profile/Lobby Screenshot</p>
+    <div class="main-wrapper">
+        <h1 class="logo-title">🔥 THE TOXIC BGMI COACH</h1>
+        <p class="subtitle">Upload your kachra stats. The AI will roast you AND auto-design the layout.</p>
+
+        <form action="/" method="POST" enctype="multipart/form-data" id="upload-form" style="width: 100%;">
+            
+            <div class="upload-container" id="drop-zone">
+                <input type="file" name="file" id="file-input" accept="image/*" required hidden>
+                
+                <div id="preview-box">
+                    <span class="upload-icon">⬇️</span>
+                    <p class="upload-text">DROP YOUR EVIDENCE HERE</p>
+                    <p style="color: #888; font-size: 0.9rem;">Drag and drop your Profile/Lobby Screenshot</p>
+                    <button type="button" class="btn-browse" id="browse-btn">Browse Files</button>
+                </div>
             </div>
-        </div>
-        
-        <button type="submit" class="btn-roast" id="roast-btn" style="display: none;">
-            🚀 ROAST MY KACHRA GAMEPLAY 🚀
-        </button>
-    </form>
-</div>
+
+            <div style="text-align: center;">
+                <button type="submit" class="btn-roast" id="roast-btn" style="display: none;">
+                    🧨 ROAST MY KACHRA GAMEPLAY 🧨
+                </button>
+            </div>
+        </form>
+    </div>
 
     <footer class="site-footer">
         <a href="/about">About Us</a> | 
         <a href="/privacy">Privacy Policy</a> | 
         <a href="/contact">Contact Us</a>
     </footer>
+
     <script>
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('file-input');
-    const previewContainer = document.getElementById('preview-container');
-    const roastBtn = document.getElementById('roast-btn');
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewBox = document.getElementById('preview-box');
+        const roastBtn = document.getElementById('roast-btn');
+        const browseBtn = document.getElementById('browse-btn');
 
-    // Click karne par file window khulegi
-    dropZone.addEventListener('click', () => fileInput.click());
+        // Click karne par file window open karna
+        dropZone.addEventListener('click', () => fileInput.click());
+        browseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput.click();
+        });
 
-    fileInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // Text ki jagah image preview dikhao
-                previewContainer.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; border-radius: 10px; margin-bottom: 10px;">
-                                              <p style="color: #00ff00;">✅ File Selected: ${file.name}</p>`;
-                // Button show karo
-                roastBtn.style.display = 'block';
+        // Jab file select ho jaye
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Box ke andar ka content image se replace kar do
+                    previewBox.innerHTML = `
+                        <img src="${e.target.result}" style="max-height: 250px; max-width: 100%; border-radius: 10px; box-shadow: 0 0 15px rgba(255,69,0,0.3); margin-bottom: 15px;">
+                        <p style="color: #00ff00; font-weight: bold; font-size: 1.1rem;">✅ Evidence Loaded</p>
+                        <p style="color: #aaa; font-size: 0.9rem; margin-top: 5px;">Click box again to change image</p>
+                    `;
+                    // Box ki dashed border ko solid bana do
+                    dropZone.style.borderStyle = 'solid';
+                    // Main Roast Button show kar do
+                    roastBtn.style.display = 'inline-block';
+                }
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file);
-        }
-    });
+        });
 
-    // Drag and Drop support
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = '#ffffff'; });
-    dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = '#ff4500'; });
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        fileInput.files = e.dataTransfer.files;
-        fileInput.dispatchEvent(new Event('change'));
-    });
-</script>
+        // Drag & Drop Hover Effects
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.backgroundColor = 'rgba(255, 69, 0, 0.1)';
+            dropZone.style.borderColor = '#ffffff';
+        });
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.backgroundColor = '#111217';
+            dropZone.style.borderColor = '#ff4500';
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.backgroundColor = '#111217';
+            dropZone.style.borderColor = '#ff4500';
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                fileInput.dispatchEvent(new Event('change')); // Triggers preview
+            }
+        });
+    </script>
 </body>
 </html>
