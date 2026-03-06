@@ -8,18 +8,60 @@
 </head>
 <body>
     <div class="main-wrapper">
-        <h1 class="logo-title">🔥 THE TOXIC BGMI COACH</h1>
-        <p class="subtitle">Upload your kachra stats. The AI will roast you AND auto-design the layout.</p>
+    <h1 class="logo-title">🔥 THE TOXIC BGMI COACH</h1>
+    <p class="subtitle">Upload your kachra stats. The AI will roast you AND auto-design the layout.</p>
 
-        <div style="border: 2px dashed #ff4500; padding: 40px; border-radius: 15px; width: 100%;">
-             <p>Drop your evidence here...</p>
+    <form action="/roast" method="post" enctype="multipart/form-data" class="upload-container">
+        <div class="upload-box" id="drop-zone">
+            <input type="file" name="file" id="file-input" accept="image/*" hidden>
+            <div id="preview-container">
+                <p>📸 Click here or Drag & Drop your Profile/Lobby Screenshot</p>
+            </div>
         </div>
-    </div>
+        
+        <button type="submit" class="btn-roast" id="roast-btn" style="display: none;">
+            🚀 ROAST MY KACHRA GAMEPLAY 🚀
+        </button>
+    </form>
+</div>
 
     <footer class="site-footer">
         <a href="/about">About Us</a> | 
         <a href="/privacy">Privacy Policy</a> | 
         <a href="/contact">Contact Us</a>
     </footer>
+    <script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const previewContainer = document.getElementById('preview-container');
+    const roastBtn = document.getElementById('roast-btn');
+
+    // Click karne par file window khulegi
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Text ki jagah image preview dikhao
+                previewContainer.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; border-radius: 10px; margin-bottom: 10px;">
+                                              <p style="color: #00ff00;">✅ File Selected: ${file.name}</p>`;
+                // Button show karo
+                roastBtn.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Drag and Drop support
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = '#ffffff'; });
+    dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = '#ff4500'; });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileInput.files = e.dataTransfer.files;
+        fileInput.dispatchEvent(new Event('change'));
+    });
+</script>
 </body>
 </html>
