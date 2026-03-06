@@ -51,7 +51,7 @@ body {
     margin-bottom: 40px;
 }
 
-/* Upload Box (Drag & Drop Zone) */
+/* Upload Box */
 .upload-container {
     width: 100%;
     background-color: var(--panel-bg);
@@ -69,17 +69,8 @@ body {
     box-shadow: 0 0 25px rgba(255, 69, 0, 0.2);
 }
 
-.upload-icon {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.upload-text {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
+.upload-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+.upload-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; }
 
 .btn-browse {
     background: transparent;
@@ -92,12 +83,9 @@ body {
     transition: 0.3s;
 }
 
-.btn-browse:hover {
-    background: var(--neon-orange);
-    color: white;
-}
+.btn-browse:hover { background: var(--neon-orange); color: white; }
 
-/* Roast Submit Button (Hidden by default) */
+/* Roast Button */
 .btn-roast {
     background: linear-gradient(90deg, #ff4500, #ff8c00);
     color: white;
@@ -110,12 +98,41 @@ body {
     box-shadow: 0 5px 20px rgba(255, 69, 0, 0.5);
     transition: transform 0.2s, box-shadow 0.2s;
     text-transform: uppercase;
+    text-decoration: none;
 }
 
 .btn-roast:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(255, 69, 0, 0.7);
 }
+
+/* AI Loading Spinner */
+.loader {
+    border: 6px solid #111217;
+    border-top: 6px solid var(--neon-orange);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
+/* Legal Pages Styling */
+.legal-box {
+    background: #1f2833;
+    padding: 40px;
+    border-radius: 15px;
+    border-left: 5px solid var(--neon-orange);
+    text-align: left;
+    width: 100%;
+    margin-top: 20px;
+}
+.legal-box h1 { color: var(--neon-orange); margin-bottom: 20px; font-size: 2rem;}
 
 /* Footer */
 .site-footer {
@@ -125,7 +142,6 @@ body {
     text-align: center;
     border-top: 1px solid #1a1a1a;
 }
-
 .site-footer a {
     color: var(--text-muted);
     text-decoration: none;
@@ -133,12 +149,8 @@ body {
     font-size: 0.9rem;
     transition: color 0.3s;
 }
+.site-footer a:hover { color: var(--neon-orange); }
 
-.site-footer a:hover {
-    color: var(--neon-orange);
-}
-
-/* Mobile Adjustments */
 @media (max-width: 600px) {
     .logo-title { font-size: 1.8rem; }
     .upload-container { padding: 30px 15px; }

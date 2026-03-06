@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RoastMyID - The Toxic BGMI Coach</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
 </head>
 <body>
 
@@ -12,25 +13,40 @@
         <h1 class="logo-title">🔥 THE TOXIC BGMI COACH</h1>
         <p class="subtitle">Upload your kachra stats. The AI will roast you AND auto-design the layout.</p>
 
-        <form action="/" method="POST" enctype="multipart/form-data" id="upload-form" style="width: 100%;">
-            
+        <form id="upload-form" style="width: 100%;">
             <div class="upload-container" id="drop-zone">
-                <input type="file" name="file" id="file-input" accept="image/*" required hidden>
-                
+                <input type="file" name="file" id="file-input" accept="image/*" multiple required hidden>
                 <div id="preview-box">
                     <span class="upload-icon">⬇️</span>
                     <p class="upload-text">DROP YOUR EVIDENCE HERE</p>
-                    <p style="color: #888; font-size: 0.9rem;">Drag and drop your Profile/Lobby Screenshot</p>
+                    <p style="color: #888; font-size: 0.9rem;">Drag and drop up to 3 screenshots (Profile/Lobby)</p>
                     <button type="button" class="btn-browse" id="browse-btn">Browse Files</button>
                 </div>
             </div>
-
             <div style="text-align: center;">
                 <button type="submit" class="btn-roast" id="roast-btn" style="display: none;">
                     🧨 ROAST MY KACHRA GAMEPLAY 🧨
                 </button>
             </div>
         </form>
+
+        <div id="loading-screen" style="display: none; width: 100%; text-align: center; margin-top: 30px;">
+            <div class="loader"></div>
+            <h3 style="color: var(--neon-orange); margin-top: 15px;">AI Coach is analyzing your stats...</h3>
+            <p style="color: #888; font-size: 0.9rem;">Please wait 5-10 seconds.</p>
+        </div>
+
+        <div id="result-box" style="display: none; width: 100%; text-align: center; margin-top: 20px;">
+            <h2 style="color: #00ff00; margin-bottom: 20px;">✅ BOOM! ROASTED.</h2>
+            <img id="final-roasted-img" src="" style="max-width: 100%; border-radius: 15px; border: 2px solid var(--neon-orange); box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);">
+            <br>
+            <a id="download-btn" href="" download="ToxicCoach_Roast.jpg" class="btn-roast" style="display: inline-block; margin-top: 25px;">
+                ⬇️ DOWNLOAD & SHARE
+            </a>
+            <br>
+            <button onclick="window.location.reload()" style="background: transparent; border: 1px solid #888; color: #888; padding: 10px 20px; border-radius: 5px; margin-top: 20px; cursor: pointer;">Roast Another ID</button>
+        </div>
+
     </div>
 
     <footer class="site-footer">
@@ -45,54 +61,81 @@
         const previewBox = document.getElementById('preview-box');
         const roastBtn = document.getElementById('roast-btn');
         const browseBtn = document.getElementById('browse-btn');
+        const uploadForm = document.getElementById('upload-form');
+        const loadingScreen = document.getElementById('loading-screen');
+        const resultBox = document.getElementById('result-box');
 
-        // Click karne par file window open karna
+        // Browse files
         dropZone.addEventListener('click', () => fileInput.click());
-        browseBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            fileInput.click();
-        });
+        browseBtn.addEventListener('click', (e) => { e.stopPropagation(); fileInput.click(); });
 
-        // Jab file select ho jaye
+        // Preview images & Limit check
         fileInput.addEventListener('change', function() {
-            if (this.files && this.files[0]) {
-                const file = this.files[0];
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    // Box ke andar ka content image se replace kar do
-                    previewBox.innerHTML = `
-                        <img src="${e.target.result}" style="max-height: 250px; max-width: 100%; border-radius: 10px; box-shadow: 0 0 15px rgba(255,69,0,0.3); margin-bottom: 15px;">
-                        <p style="color: #00ff00; font-weight: bold; font-size: 1.1rem;">✅ Evidence Loaded</p>
-                        <p style="color: #aaa; font-size: 0.9rem; margin-top: 5px;">Click box again to change image</p>
-                    `;
-                    // Box ki dashed border ko solid bana do
-                    dropZone.style.borderStyle = 'solid';
-                    // Main Roast Button show kar do
-                    roastBtn.style.display = 'inline-block';
-                }
-                reader.readAsDataURL(file);
+            if (this.files.length > 3) {
+                alert("❌ Maximum 3 screenshots allowed bhai!");
+                this.value = ''; 
+                return;
+            }
+            if (this.files && this.files.length > 0) {
+                previewBox.innerHTML = `
+                    <p style="color:#00ff00; font-weight:bold; font-size:1.2rem;">✅ ${this.files.length} Files Ready!</p>
+                    <p style="color:#888; font-size:0.9rem;">Click box again to change</p>
+                `;
+                dropZone.style.borderStyle = 'solid';
+                roastBtn.style.display = 'inline-block';
             }
         });
 
-        // Drag & Drop Hover Effects
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.style.backgroundColor = 'rgba(255, 69, 0, 0.1)';
-            dropZone.style.borderColor = '#ffffff';
+        // Smart Form Submit (AJAX)
+        uploadForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); 
+            
+            if (fileInput.files.length === 0) {
+                alert("⚠️ Bhai, kam se kam 1 screenshot toh upload kar!");
+                return;
+            }
+
+            uploadForm.style.display = 'none';
+            loadingScreen.style.display = 'block';
+
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch('/roast', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                loadingScreen.style.display = 'none'; 
+
+                if (data.success) {
+                    resultBox.style.display = 'block';
+                    document.getElementById('final-roasted-img').src = data.image_url;
+                    document.getElementById('download-btn').href = data.image_url;
+                } else {
+                    alert("❌ Error: " + data.error);
+                    uploadForm.style.display = 'block'; 
+                }
+            } catch (error) {
+                alert("❌ Server connection lost. Please try again.");
+                loadingScreen.style.display = 'none';
+                uploadForm.style.display = 'block';
+            }
         });
-        dropZone.addEventListener('dragleave', (e) => {
-            e.preventDefault();
-            dropZone.style.backgroundColor = '#111217';
-            dropZone.style.borderColor = '#ff4500';
-        });
+
+        // Drag & drop logic
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.backgroundColor = 'rgba(255, 69, 0, 0.1)'; });
+        dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.style.backgroundColor = 'var(--panel-bg)'; });
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropZone.style.backgroundColor = '#111217';
-            dropZone.style.borderColor = '#ff4500';
+            dropZone.style.backgroundColor = 'var(--panel-bg)';
+            if (e.dataTransfer.files.length > 3) {
+                alert("❌ Maximum 3 screenshots allowed!"); return;
+            }
             if (e.dataTransfer.files.length) {
                 fileInput.files = e.dataTransfer.files;
-                fileInput.dispatchEvent(new Event('change')); // Triggers preview
+                fileInput.dispatchEvent(new Event('change'));
             }
         });
     </script>

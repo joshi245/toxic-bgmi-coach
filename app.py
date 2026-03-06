@@ -7,6 +7,7 @@ import random
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
 import uuid
+
 def compress_for_ai(image, max_size=(800, 800)):
     """AI ko bhejne se pehle image ko chhota aur fast banata hai"""
     img_copy = image.copy()
@@ -29,7 +30,7 @@ api_key = os.getenv("GEMINI_API_KEY")
 if api_key:
     genai.configure(api_key=api_key)
 
-# 🧠 The "AI Director" God Prompt (Funny mood, perfect spelling)
+# 🧠 The "AI Director" God Prompt
 ai_director_prompt = """
 You are a dual-threat AI: A toxic but FUNNY BGMI Coach AND an Expert Graphic Designer.
 I am sending you images. 
@@ -128,10 +129,11 @@ def index():
 
 @app.route('/roast', methods=['POST'])
 def roast():
-    if 'files[]' not in request.files:
+    # Fix: Frontend is sending 'file', not 'files[]'
+    if 'file' not in request.files:
         return jsonify({"error": "No files uploaded"}), 400
     
-    files = request.files.getlist('files[]')
+    files = request.files.getlist('file')
     if len(files) == 0 or files[0].filename == '':
         return jsonify({"error": "Bhai, kam se kam ek screenshot toh upload kar!"}), 400
     if len(files) > 3:
@@ -143,7 +145,6 @@ def roast():
         file.save(filepath)
         saved_images.append(Image.open(filepath))
 
-    # Random Background Selection from assets
     possible_templates = [f for f in os.listdir(app.config['ASSETS_FOLDER']) if f.startswith('bgmi_template') and f.endswith(('.png', '.jpg'))]
     if not possible_templates:
         return jsonify({"error": "Background templates missing in assets folder!"}), 500
@@ -155,11 +156,9 @@ def roast():
     try:
         payload = [ai_director_prompt]
         
-        # NAYA FAST CODE: User ki images compress karke payload mein daalo
         for img in saved_images:
             payload.append(compress_for_ai(img))
             
-        # Background template ko bhi compress karke daalo
         bg_img = Image.open(selected_bg_path)
         payload.append(compress_for_ai(bg_img))
         
