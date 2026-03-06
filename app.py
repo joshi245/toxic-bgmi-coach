@@ -111,6 +111,14 @@ def create_final_image(roast_text, layout_data, base_image_path, font_path):
         return None
 
 # Routes
+# Isko existing routes ke saath niche paste kar de
+@app.route('/ads.txt')
+def ads_txt():
+    try:
+        # Yeh file ko root directory se uthayega
+        return send_from_directory(os.getcwd(), 'ads.txt')
+    except Exception as e:
+        return str(e), 404
 @app.route('/privacy')
 def privacy():
     return render_template('privacy.html')
