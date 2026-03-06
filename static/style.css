@@ -1,4 +1,12 @@
-/* RoastMyID Final Fix Style */
+/* RoastMyID Global Styles */
+:root {
+    --neon-orange: #ff4500;
+    --bg-black: #0b0c10;
+    --card-bg: #1f2833;
+    --text-main: #ffffff;
+    --text-dim: #c5c6c7;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,54 +14,81 @@
 }
 
 body {
-    background-color: #0b0c10;
-    color: #ffffff;
-    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-black);
+    color: var(--text-main);
+    font-family: 'Segoe UI', sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    align-items: center; /* Sab kuch center mein rakhega */
+    min-height: 100vh; /* Isse footer hamesha niche rahega */
+    align-items: center;
 }
 
-/* Ye container sab elements ko beech mein rok kar rakhega */
-.container {
+/* Main Layout Container */
+.main-wrapper {
     width: 100%;
     max-width: 900px;
-    padding: 40px 20px;
+    flex: 1; /* Saari bachi hui jagah lega */
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
     text-align: center;
 }
 
-/* Legal Pages (About, Privacy, Contact) ke liye */
+/* Header & Titles */
+.logo-title {
+    color: var(--neon-orange);
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba(255, 69, 0, 0.4);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-dim);
+    margin-bottom: 30px;
+}
+
+/* Box for Legal Pages (About/Privacy/Contact) */
 .legal-box {
-    background: #1f2833;
+    background: var(--card-bg);
     padding: 40px;
     border-radius: 15px;
-    border: 2px solid #ff4500;
-    text-align: left; /* Text left rahega par box center mein */
-    margin-top: 50px;
+    border-left: 5px solid var(--neon-orange);
+    text-align: left; /* Text alignment inside box */
     width: 100%;
+    margin-top: 20px;
 }
 
 .legal-box h1 {
-    color: #ff4500;
+    color: var(--neon-orange);
     margin-bottom: 20px;
 }
 
-/* Footer hamesha bottom mein rahega */
-footer {
-    margin-top: auto;
+/* Custom Footer */
+.site-footer {
     width: 100%;
-    padding: 20px;
     background: #000;
+    padding: 25px;
     text-align: center;
     border-top: 1px solid #333;
 }
 
-footer a {
-    color: #ff4500;
+.site-footer a {
+    color: var(--text-dim);
     text-decoration: none;
     margin: 0 15px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.site-footer a:hover {
+    color: var(--neon-orange);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .logo-title { font-size: 2rem; }
+    .legal-box { padding: 20px; }
 }

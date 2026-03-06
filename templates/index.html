@@ -3,45 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Toxic BGMI Coach</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+    <title>RoastMyID - The Toxic BGMI Coach</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🔥 THE TOXIC BGMI COACH</h1>
-            <p>Upload your kachra stats. The AI will roast you AND auto-design the layout.</p>
-        </header>
+    <div class="main-wrapper">
+        <h1 class="logo-title">🔥 THE TOXIC BGMI COACH</h1>
+        <p class="subtitle">Upload your kachra stats. The AI will roast you AND auto-design the layout.</p>
 
-        <div class="upload-box" id="dropzone">
-            <p>⬇️ DROP YOUR EVIDENCE HERE ⬇️</p>
-            <p class="subtext">Drag and drop up to 3 screenshots (Profile/Lobby)</p>
-            <input type="file" id="fileInput" multiple accept="image/png, image/jpeg" style="display: none;">
-            <button class="secondary-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
-            <div id="file-count"></div>
-        </div>
-
-        <button id="roastBtn" class="primary-btn">🧨 ROAST MY KACHRA GAMEPLAY 🧨</button>
-
-        <div id="loading" class="hidden">
-            <div class="spinner"></div>
-            <p id="loadingText">Coach is laughing at your 1.2 K/D...</p>
-        </div>
-
-        <div id="resultArea" class="hidden">
-            <h2 class="success-text">✅ BOOM! ROASTED.</h2>
-            <img id="resultImage" src="" alt="Roasted Story">
-            <a id="downloadBtn" href="" download="toxic_roast.jpg" class="download-btn">📥 DOWNLOAD & SHARE TO IG STORY</a>
+        <div style="border: 2px dashed #ff4500; padding: 40px; border-radius: 15px; width: 100%;">
+             <p>Drop your evidence here...</p>
         </div>
     </div>
-    
-    <script src="/static/script.js"></script>
-    
-    <footer style="margin-top: 50px; padding: 20px; border-top: 1px solid #333;">
-    <a href="/about" style="color: #c5c6c7; margin: 0 10px;">About Us</a> |
-    <a href="/privacy" style="color: #c5c6c7; margin: 0 10px;">Privacy Policy</a> |
-    <a href="/contact" style="color: #c5c6c7; margin: 0 10px;">Contact Us</a>
-</footer>
+
+    <footer class="site-footer">
+        <a href="/about">About Us</a> | 
+        <a href="/privacy">Privacy Policy</a> | 
+        <a href="/contact">Contact Us</a>
+    </footer>
 </body>
 </html>

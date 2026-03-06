@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - RoastMyID</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="legal-container">
+    <div class="main-wrapper">
         <div class="legal-box">
-        <h1>About RoastMyID</h1>
-        <div class="content-box">
-            <p><strong>RoastMyID.in</strong> is a fun, AI-powered tool built specifically for the BGMI and gaming community.</p>
-            <p>Our AI analyzes your gameplay screenshots and generates a "toxic" but funny roast based on your stats vs skins.</p>
-            <p>It's built by gamers, for gamers, so you can share a laugh with your squad after a bad match.</p>
+            <h1>About RoastMyID</h1>
+            <p><strong>RoastMyID.in</strong> ek fun, AI-powered tool hai jo khaas karke BGMI aur gaming community ke liye banaya gaya hai.</p>
+            <p>Hamara AI aapke gameplay screenshots ko analyze karta hai aur aapke stats ke hisaab se ek "toxic" par funny roast generate karta hai.</p>
+            <p>Ye gamers ne gamers ke liye banaya hai, taaki ek gande match ke baad aap apne squad ke saath thoda has sakein.</p>
         </div>
         <br>
-        <a href="/" style="color: #ff4500; text-decoration: none;">← Back to Home</a>
+        <a href="/" style="color: #ff4500; text-decoration: none; font-weight: bold;">← Back to Home</a>
     </div>
+
+    <footer class="site-footer">
+        <a href="/about">About Us</a> | 
+        <a href="/privacy">Privacy Policy</a> | 
+        <a href="/contact">Contact Us</a>
+    </footer>
 </body>
 </html>
