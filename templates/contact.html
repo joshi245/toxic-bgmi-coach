@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Contact Us - RoastMyID</title>
-    <link rel="stylesheet" href="/static/style.css">
 </head>
-<body style="padding: 50px; text-align: center;">
-    <h1>Contact Us</h1>
-    <p>Have a suggestion or found a bug?</p>
-    <p>Email us at: <strong>support@roastmyid.in</strong></p>
-    <p>We usually reply within 24-48 hours.</p>
-    <a href="/" style="color: #ff4500;">← Back to Home</a>
+<body>
+    <div class="legal-container" style="text-align: center;">
+        <h1>Contact Us</h1>
+        <div class="content-box">
+            <p>Have a suggestion or found a bug in the AI coach?</p>
+            <p>Email us at: <strong>support@roastmyid.in</strong></p>
+            <p style="font-size: 0.9rem; color: #888;">We usually reply within 24-48 hours.</p>
+        </div>
+        <br>
+        <a href="/" style="color: #ff4500; text-decoration: none;">← Back to Home</a>
+    </div>
 </body>
 </html>

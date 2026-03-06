@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Privacy Policy - RoastMyID</title>
-    <link rel="stylesheet" href="/static/style.css">
 </head>
-<body style="padding: 50px; text-align: left; max-width: 800px; margin: auto;">
-    <h1>Privacy Policy</h1>
-    <p>At RoastMyID.in, we respect your privacy. Here is how we handle data:</p>
-    <ul>
-        <li><strong>Images:</strong> We do NOT store your uploaded screenshots. They are processed via API and deleted immediately.</li>
-        <li><strong>Data Collection:</strong> We do not collect personal names or emails unless you contact us.</li>
-        <li><strong>Ads:</strong> We use third-party advertising (Google AdSense) which may use cookies to serve ads based on your visits.</li>
-    </ul>
-    <a href="/" style="color: #ff4500;">← Back to Home</a>
+<body>
+    <div class="legal-container">
+        <h1>Privacy Policy</h1>
+        <p>At <strong>RoastMyID.in</strong>, we respect your privacy.</p>
+        <ul>
+            <li><strong>Images:</strong> We do NOT store your uploaded screenshots.</li>
+            <li><strong>Ads:</strong> We use Google AdSense for monetization.</li>
+        </ul>
+        <br>
+        <a href="/" style="color: #ff4500; text-decoration: none;">← Back to Home</a>
+    </div>
 </body>
 </html>
