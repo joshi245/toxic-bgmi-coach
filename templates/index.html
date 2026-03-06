@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Toxic BGMI Coach</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 THE TOXIC BGMI COACH</h1>
+            <p>Upload your kachra stats. The AI will roast you AND auto-design the layout.</p>
+        </header>
+
+        <div class="upload-box" id="dropzone">
+            <p>⬇️ DROP YOUR EVIDENCE HERE ⬇️</p>
+            <p class="subtext">Drag and drop up to 3 screenshots (Profile/Lobby)</p>
+            <input type="file" id="fileInput" multiple accept="image/png, image/jpeg" style="display: none;">
+            <button class="secondary-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+            <div id="file-count"></div>
+        </div>
+
+        <button id="roastBtn" class="primary-btn">🧨 ROAST MY KACHRA GAMEPLAY 🧨</button>
+
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p id="loadingText">Coach is laughing at your 1.2 K/D...</p>
+        </div>
+
+        <div id="resultArea" class="hidden">
+            <h2 class="success-text">✅ BOOM! ROASTED.</h2>
+            <img id="resultImage" src="" alt="Roasted Story">
+            <a id="downloadBtn" href="" download="toxic_roast.jpg" class="download-btn">📥 DOWNLOAD & SHARE TO IG STORY</a>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
